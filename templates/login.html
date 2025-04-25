@@ -2,9 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Log In Page</title>
+    <link rel="stylesheet" href="{% static 'login_styles.css' %}">
 </head>
 <body>
-
+    <div class = "login_container">
+        <h1>Login</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" placeholder="Username">
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Email">
+            <br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>

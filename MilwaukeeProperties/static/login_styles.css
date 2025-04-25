@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+:root{
+    --dark_blue: #0D2240;
+    --light_blue: #00A8E1;
+    --mke_yellow: #F7A800;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    height:100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Roboto", sans-serif;
+}
+
+.login_container{
+    height: auto;
+    max-height: 500px;
+    width:60%;
+    max-width: 600px;
+    padding:20px;
+    background-color:#0D2240;
+    border-radius: 20px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    color:white;
+}
+
+.login_container form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.login_container form label {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--mke_yellow);
+}
+
+.login_container form input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #333;
+}
+.login_container form button {
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--light_blue);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

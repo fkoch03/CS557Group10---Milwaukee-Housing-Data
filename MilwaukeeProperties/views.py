@@ -15,7 +15,18 @@ class HomeView(View):
         })
 
 class LoginView(View):
-    def get(self, request):
+    def login_view(request):
+        if request.method == "POST":
+            username = request.POST.get('username')
+            email = request.POST.get('email')
+
+            try:
+                user = User.objects.get(username=username, email=email)
+                return redirect('home')
+            except User.DoesNotExist:
+                error_message = "Invalid username or email. Please try again."
+                return render(request, 'login.html', {'error_message': error_message})
+        return render(request, "login.html")
 
 class PropertyView(View):
     def get(self, request, property_id):
