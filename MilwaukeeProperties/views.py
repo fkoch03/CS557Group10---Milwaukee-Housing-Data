@@ -35,7 +35,7 @@ class PropertyView(View):
         comments = Comment.objects.filter(property_id=property_id)
         return render(request, 'property.html', {
             'sales': sales,
-            'prop': prop
+            'prop': prop,
             'comments': comments
         })
 

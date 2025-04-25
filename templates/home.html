@@ -1,10 +1,49 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+        <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+
 </head>
 <body>
-
+    <div class="header">
+        <div class = "links">
+            <p>Home</p>
+            <p>Properties</p>
+            <p>Favorites</p>
+            <p>Login/Logout</p>
+        </div>
+    </div>
+    <div class="search_container">
+        <div>
+            <h1>Explore Milwaukee</h1>
+            <div class="search_bar" contenteditable="true" role="textbox" aria-label= "Search" placeholder ="Search..."></div>
+        </div>
+    </div>
+    <div class="filter_bar">
+        <div class="links">
+            <p>Property Style</p>
+            <p>Neighborhood</p>
+            <p>Price</p>
+        </div>
+    </div>
+    <div class = "main">
+        <div class = "properties_container">
+            {% for sale in sales %}
+            <div class="property">
+                <h3>${{ sale.price }}</h3>
+                {% if sale.property %}
+                    <p>{{ sale.property.address }}</p>
+                    <p>{{ sale.property.style }}</p>
+                {% else %}
+                    <p>No address available</p>
+                    <p>No style available</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
