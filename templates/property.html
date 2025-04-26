@@ -2,9 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Property Details</title>
+    <link rel="stylesheet" href="{% static 'property_styles.css' %}">
 </head>
 <body>
+    <div class="header">
+        <div class="links">
+            <p>Home</p>
+            <p>Properties</p>
+            <p>Favorites</p>
+            <p>Login/Logout</p>
+        </div>
+    </div>
+    <div class="main_info">
+        <div>
+            <h1>{{ prop.price }}</h1>
+            <p>{{ prop.location.address }} {{ prop.location.zip }}</p>
+            <p>{{ prop.location.city }}, {{ prop.location.state }}</p>
+        </div>
+    </div>
 
+    <div class="details">
+        <div class="property_details">
+            {% for key, value in details.items %}
+            <div class="detail_container">
+                <div class="key">
+                    <p>{{ key }}</p>
+                </div>
+                <div class="value">
+                    <p>{{ value }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="property_affiliates">
+            {% for affiliate in affiliates %}
+            <div class="affiliate_container">
+                <div class="affiliate_title">
+                    <p>{{ affiliate.title }}</p>
+                </div>
+                <div class="affiliate_name">
+                    <p>{{ affiliate.name }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="comments">
+        <h1>Comments</h1>
+        {% for comment in comments %}
+        <div class="comment_container">
+            <h3>{{ comment.user.username }}</h3>
+            <p>{{ comment.content }}</p>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

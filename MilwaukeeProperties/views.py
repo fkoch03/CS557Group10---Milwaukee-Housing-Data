@@ -33,10 +33,30 @@ class PropertyView(View):
         sales = Sale.objects.filter(property_id=property_id)
         prop = Property.objects.get(id=property_id)
         comments = Comment.objects.filter(property_id=property_id)
+        details = {
+            "Neighborhood": prop.nbhd.nbhd,
+            "Style": prop.style,
+            "Exterior Wall": prop.extwall,
+            "Stories": prop.stories,
+            "Year Built": prop.year_built,
+            "Rooms": prop.rooms,
+            "Finished Sq Ft": prop.finished_sqft,
+            "Units": prop.units,
+            "Full Baths": prop.full_bath,
+            "Half Baths": prop.half_bath,
+            "Lot Size": prop.lot_size,
+        }
+
+        affiliates = [
+            {"title": "Realtor", "name": f"{prop.realtor.first_name} {prop.realtor.last_name}"},
+            {"title": "Company", "name": prop.realtor.company.name if prop.realtor.company else "N/A"},
+        ]
         return render(request, 'property.html', {
             'sales': sales,
             'prop': prop,
-            'comments': comments
+            'comments': comments,
+            'details': details,
+            'affiliates': affiliates,
         })
 
 class SearchView(View):
