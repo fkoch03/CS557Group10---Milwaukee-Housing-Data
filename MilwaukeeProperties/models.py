@@ -12,9 +12,8 @@ class User(models.Model):
 class Location(models.Model):
     id = models.IntegerField(primary_key=True)
     address = models.CharField(max_length=100, null=True, blank=True)
-    zip = models.IntegerField(null=True, blank=True)
-    latitude = models.DecimalField(max_digits=6, decimal_places=0, null=True, blank=True)
-    longitude = models.DecimalField(max_digits=6, decimal_places=0, null=True, blank=True)
+    latitude = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=8, decimal_places=6, null=True, blank=True)
 
 
 class CondoProject(models.Model):
@@ -26,7 +25,7 @@ class Alderman(models.Model):
     id = models.IntegerField(primary_key=True)
     first_name = models.CharField(max_length=45, null=True, blank=True)
     last_name = models.CharField(max_length=45, null=True, blank=True)
-    date_elected = models.DateTimeField(null=True, blank=True)
+    year_elected = models.IntegerField(null=True, blank=True)
 
 
 class District(models.Model):
@@ -39,22 +38,16 @@ class District(models.Model):
         on_delete=models.SET_NULL
     )
 
-
-class Neighborhood(models.Model):
-    nbhd = models.CharField(max_length=4, primary_key=True)
-    emperor = models.CharField(max_length=45, null=True, blank=True)
-
-
 class Property(models.Model):
     id = models.IntegerField(primary_key=True)
-    type = models.CharField(max_length=45, null=True, blank=True)
-    taxkey = models.CharField(max_length=45, null=True, blank=True)
-    location = models.ForeignKey(
+    prop_id = models.ForeignKey(
         Location,
         null=True,
         blank=True,
         on_delete=models.SET_NULL
     )
+    type = models.CharField(max_length=45, null=True, blank=True)
+    taxkey = models.CharField(max_length=45, null=True, blank=True)
     condo = models.ForeignKey(
         CondoProject,
         null=True,
@@ -67,12 +60,7 @@ class Property(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
-    nbhd = models.ForeignKey(
-        Neighborhood,
-        null=True,
-        blank=True,
-        on_delete=models.DO_NOTHING
-    )
+    nbhd = models.CharField(max_length=4)
     style = models.CharField(max_length=45, null=True, blank=True)
     extwall = models.CharField(max_length=45, null=True, blank=True)
     stories = models.DecimalField(max_digits=1, decimal_places=0, null=True, blank=True)
@@ -117,7 +105,7 @@ class Sale(models.Model):
         on_delete=models.SET_NULL
     )
     price = models.CharField(max_length=45, null=True, blank=True)
-    date = models.DateTimeField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
 
 
 class Favorite(models.Model):

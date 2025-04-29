@@ -13,11 +13,22 @@
             <p>Home</p>
             <p>Properties</p>
             <p>Favorites</p>
-            <p>Login/Logout</p>
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+            </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
         </div>
     </div>
     <div class="search_container">
         <div>
+            {% if user.is_authenticated %}
+            Welcome {{ user.username }}!
+            {% endif %}
             <h1>Explore Milwaukee</h1>
             <div class="search_bar" contenteditable="true" role="textbox" aria-label= "Search" placeholder ="Search..."></div>
         </div>

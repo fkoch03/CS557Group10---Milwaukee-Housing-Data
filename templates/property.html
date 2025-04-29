@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,14 +12,21 @@
             <p>Home</p>
             <p>Properties</p>
             <p>Favorites</p>
-            <p>Login/Logout</p>
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+            </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
         </div>
     </div>
+
     <div class="main_info">
         <div>
-            <h1>{{ prop.price }}</h1>
-            <p>{{ prop.location.address }} {{ prop.location.zip }}</p>
-            <p>{{ prop.location.city }}, {{ prop.location.state }}</p>
+            <p>{{ location.address }}</p>
         </div>
     </div>
 
@@ -30,25 +38,39 @@
                     <p>{{ key }}</p>
                 </div>
                 <div class="value">
+                    {% if value %}
                     <p>{{ value }}</p>
+                    {% else %}
+                    <p>No data</p>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
 
         <div class="property_affiliates">
-            {% for affiliate in affiliates %}
+            {% if sales %}
+                <p>Most recent sale data:</p>
+            {% for sale in sales %}
             <div class="affiliate_container">
                 <div class="affiliate_title">
-                    <p>{{ affiliate.title }}</p>
+                    <p>{{ sale.realtor.company.name }}</p>
                 </div>
                 <div class="affiliate_name">
-                    <p>{{ affiliate.name }}</p>
+                    <p>{{ sale.realtor.first_name }} {{ sale.realtor.last_name }}</p>
+                </div>
+                <div class="affiliate_name">
+                    <p>${{ sale.price }}</p>
                 </div>
             </div>
             {% endfor %}
+        {% else %}
+            <p>No sale data available for this property.</p>
+        {% endif %}
         </div>
     </div>
+
+
 
     <div class="comments">
         <h1>Comments</h1>
