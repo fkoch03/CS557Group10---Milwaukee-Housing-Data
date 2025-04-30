@@ -3,16 +3,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-        <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'home_styles.css' %}">
 
 </head>
 <body>
     <div class="header">
         <div class = "links">
             <p>Home</p>
-            <p>Properties</p>
-            <p>Favorites</p>
+            <a href="{% url 'search' %}">Search Properties</a>
+            <a href="{% url 'favorites' %}">Favorites</a>
             {% if user.is_authenticated %}
             <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
@@ -29,25 +29,24 @@
             {% if user.is_authenticated %}
             Welcome {{ user.username }}!
             {% endif %}
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
             <h1>Explore Milwaukee</h1>
             <div class="search_bar" contenteditable="true" role="textbox" aria-label= "Search" placeholder ="Search..."></div>
         </div>
     </div>
     <div class="filter_bar">
-        <div class="links">
-            <p>Property Style</p>
-            <p>Neighborhood</p>
-            <p>Price</p>
-        </div>
     </div>
     <div class = "main">
         <div class = "properties_container">
             {% for sale in sales %}
-            <div class="property">
+            <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
                 <h3>${{ sale.price }}</h3>
                 {% if sale.property %}
-                    <p>{{ sale.property.address }}</p>
+                    <p>{{ sale.property.prop_id.address }}</p>
                     <p>{{ sale.property.style }}</p>
+                    <p>{{ sale.date }}</p>
                 {% else %}
                     <p>No address available</p>
                     <p>No style available</p>

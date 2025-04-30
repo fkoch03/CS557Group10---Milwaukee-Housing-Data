@@ -1,15 +1,19 @@
-from django.shortcuts import render
+import datetime
+
+from django.shortcuts import render, redirect
 from .models import *
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+import random
 
 
 # Create your views here.
 class HomeView(View):
     def get(self, request):
-        sales = Sale.objects.all()
+        random_sale = random.randint(0,400)
+        sales = Sale.objects.all()[random_sale:random_sale+12]
         return render(request, 'home.html', {
             'sales': sales,
         })
@@ -39,7 +43,6 @@ class PropertyView(View):
             return render(request, 'noresult.html')
         sales = Sale.objects.filter(property_id=property_id)
         comments = Comment.objects.filter(property_id=property_id)
-        location = Location.objects.get(id=prop.prop_id_id)
         details = {
             "Style": prop.style,
             "Exterior Wall": prop.extwall,
@@ -57,16 +60,34 @@ class PropertyView(View):
             'prop': prop,
             'comments': comments,
             'details': details,
-            'location' : location,
         })
+    def post(self, request, property_id):
+        if request.user.is_authenticated:
+            Favorite.objects.create(user=request.user.id, property=property_id, date=datetime.datetime.now())
+            redirect('property', property_id=property_id)
 
 class SearchView(View):
     def get(self, request):
-        return
+        sales = Sale.objects.all()[:48]
+        return render(request, 'search.html', {
+            'sales': sales,
+        })
 
 class FavoritesView(View):
     def get(self, request):
-        return
+        if request.user.is_authenticated:
+            favorites = Favorite.objects.filter(user_id=request.user.id)
+            return render(request, 'favorites.html', {
+                'favorites': favorites,
+            })
+        else:
+            random_sale = random.randint(0, 400)
+            sales = Sale.objects.all()[random_sale:random_sale + 12]
+            return render(request, 'home.html', {
+                'sales': sales,
+                'message': 'Log in or create an account to see your favorites!',
+            })
+
 
 
 class RealtorView(View):

@@ -1,10 +1,57 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Properties</title>
+        <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+
 </head>
 <body>
-
+    <div class="header">
+        <div class = "links">
+            <a href="{% url 'home' %}">Home</a>
+            <p>Search Properties</p>
+            <a href="{% url 'favorites' %}">Favorites</a>
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+            </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="search_container">
+        <div>
+            <div class="search_bar" contenteditable="true" role="textbox" aria-label= "Search" placeholder ="Search..."></div>
+        </div>
+    </div>
+    <div class="filter_bar">
+        <div class="links">
+            <p>Property Style</p>
+            <p>Neighborhood</p>
+            <p>Price</p>
+        </div>
+    </div>
+    <div class = "main">
+        <div class = "properties_container">
+            {% for sale in sales %}
+            <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
+                <h3>${{ sale.price }}</h3>
+                {% if sale.property %}
+                    <p>{{ sale.property.prop_id.address }}</p>
+                    <p>{{ sale.property.style }}</p>
+                    <p>{{ sale.date }}</p>
+                {% else %}
+                    <p>No address available</p>
+                    <p>No style available</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
