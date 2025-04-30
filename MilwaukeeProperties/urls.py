@@ -22,7 +22,7 @@ from .views import *
 urlpatterns = [
 path('', views.HomeView.as_view(), name='home'),
 path('property/<int:property_id>/', views.PropertyView.as_view(), name='property'),
-path('favorites/<int:user_id>/', views.FavoritesView.as_view(), name='favorites'),
+path('favorites/', views.FavoritesView.as_view(), name='favorites'),
 path('explore/', views.SearchView.as_view(), name='search'),
 path('', include('django.contrib.auth.urls') ),
 path('district/<int:district_id>/', views.HomeView.as_view(), name='district'),

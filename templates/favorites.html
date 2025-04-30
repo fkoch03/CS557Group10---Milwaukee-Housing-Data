@@ -1,10 +1,32 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Favorites</title>
+    <link rel="stylesheet" href="{% static 'home_styles.css' %}">
 </head>
 <body>
-
+<h1>Your favorite properties</h1>
+<br>
+    <div class = "properties_container">
+    {% if not favorites %}
+        <p>No properties add to favorites yet</p>
+    {% else %}
+            {% for fav in favorites %}
+            <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
+                <h3>${{ sale.price }}</h3>
+                {% if sale.property %}
+                    <p>{{ sale.property.prop_id.address }}</p>
+                    <p>{{ sale.property.style }}</p>
+                    <p>{{ sale.date }}</p>
+                {% else %}
+                    <p>No address available</p>
+                    <p>No style available</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+    {% endif %}
+    </div>
 </body>
 </html>
