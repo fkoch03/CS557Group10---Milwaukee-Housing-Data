@@ -1,16 +1,32 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'login_styles.css' %}">
+
 </head>
 <body>
     <div class = "login_container">
         <h2>Sign up</h2>
         <form method="post">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">Sign Up</button>
+        <div>
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                {{ form.username }}
+            </div>
+            <div>
+                <label for="{{ form.password1.id_for_label }}">Password</label>
+                {{ form.password1 }}
+            </div>
+            <div>
+                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                {{ form.password2 }}
+            </div>
+            <button type="submit">Sign Up</button>
+
         </form>
     </div>
 </body>

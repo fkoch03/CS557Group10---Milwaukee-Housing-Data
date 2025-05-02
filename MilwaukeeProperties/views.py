@@ -39,6 +39,7 @@ class CustomLoginView(LoginView):
     template_name = 'login.html'
     authentication_form = LoginForm
 
+
 class PropertyView(View):
     def get(self, request, property_id):
         try:
@@ -120,6 +121,6 @@ class DistrictView(View):
         return
 
 class SignUpView(CreateView):
-    form_class = UserCreationForm
+    form_class = SignUpForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
