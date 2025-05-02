@@ -4,10 +4,11 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 import random
-
+from .forms import *
 
 # Create your views here.
 class HomeView(View):
@@ -34,6 +35,9 @@ class HomeView(View):
 #                 error_message = "Invalid username or email. Please try again."
 #                 return render(request, 'login.html', {'error_message': error_message})
 #         return render(request, "login.html")
+class CustomLoginView(LoginView):
+    template_name = 'login.html'
+    authentication_form = LoginForm
 
 class PropertyView(View):
     def get(self, request, property_id):

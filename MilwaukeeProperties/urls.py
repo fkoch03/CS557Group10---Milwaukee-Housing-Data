@@ -29,6 +29,8 @@ path('district/<int:district_id>/', views.HomeView.as_view(), name='district'),
 path('realtor/<int:realtor_id>/', views.HomeView.as_view(), name='realtor'),
 path("signup/", SignUpView.as_view(), name="signup"),
 
+path("login/", CustomLoginView.as_view(), name="login"),
+
 
 
 
