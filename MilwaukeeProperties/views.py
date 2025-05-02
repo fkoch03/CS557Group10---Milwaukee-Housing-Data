@@ -63,8 +63,24 @@ class PropertyView(View):
         })
     def post(self, request, property_id):
         if request.user.is_authenticated:
-            Favorite.objects.create(user=request.user.id, property=property_id, date=datetime.datetime.now())
-            redirect('property', property_id=property_id)
+
+            if 'add_to_favourites' in request.POST:
+                Favorite.objects.create(user=request.user, property_id=property_id, date=datetime.datetime.now())
+            elif 'add_comment' in request.POST:
+                comment_content = request.POST.get('comment')
+                if comment_content:
+                    Comment.objects.create(
+                        user=request.user,
+                        property_id=property_id,
+                        comment=comment_content,
+                        date=datetime.datetime.now()
+                    )
+            return redirect('property', property_id=property_id)
+        return redirect('login')
+            # Favorite.objects.create(user=request.user.id, property=property_id, date=datetime.datetime.now())
+            # redirect('property', property_id=property_id)
+
+
 
 class SearchView(View):
     def get(self, request):

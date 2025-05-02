@@ -28,6 +28,11 @@
         <div>
             <p>{{ prop.prop_id.address }}</p>
         </div>
+        <form method="post" action="{% url 'property' prop.prop_id.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="add_to_favorites" value="true">
+            <button type="submit" class="btn btn-primary">Add to Favorites</button>
+        </form>
     </div>
 
     <div class="details">
@@ -79,6 +84,11 @@
 
     <div class="comments">
         <h1>Comments</h1>
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="comment" placeholder="Add a comment..." required></textarea>
+            <button type="submit" name="add_comment">Submit</button>
+        </form>
         {% for comment in comments %}
         <div class="comment_container">
             <h3>{{ comment.user.username }}</h3>
