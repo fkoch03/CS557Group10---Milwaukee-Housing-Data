@@ -40,7 +40,7 @@ body{
     justify-content: center;
     align-items: center;
 }
-.search-bar {
+.search_bar {
     width: 300px;
     padding: 10px 15px;
     font-size: 16px;
