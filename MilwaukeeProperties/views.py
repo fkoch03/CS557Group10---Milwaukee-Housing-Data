@@ -89,10 +89,47 @@ class PropertyView(View):
 
 class SearchView(View):
     def get(self, request):
-        sales = Sale.objects.all()[:48]
+        styles = Property.objects.values_list('style', flat=True).distinct().order_by('style')
+        sales = Sale.objects.select_related('property').all()[:48]
         return render(request, 'search.html', {
             'sales': sales,
+            'styles': styles,
         })
+
+    def post(self, request):
+        search_bar = request.POST.get("search_bar")
+        property_type = request.POST.get("property_type")
+        min_price = request.POST.get("min_price")
+        max_price = request.POST.get("max_price")
+        start_date = request.POST.get("start_date")
+        end_date = request.POST.get("end_date")
+
+        sales = Sale.objects.select_related('property').all()
+
+        if search_bar:
+            sales = sales.filter(property__prop_id__address__icontains=search_bar)
+        if property_type:
+            sales = sales.filter(property__style=property_type)
+
+        try:
+            if min_price:
+                sales = sales.filter(price__gte=int(min_price))
+            if max_price:
+                sales = sales.filter(price__lte=int(max_price))
+        except ValueError:
+            pass
+
+        if start_date:
+            sales = sales.filter(date__gte=start_date)
+        if end_date:
+            sales = sales.filter(date__lte=end_date)
+
+        styles = Property.objects.values_list('style', flat=True).distinct().order_by('style')
+        return render(request, 'search.html', {
+            'sales': sales[:48],
+            'styles': styles,
+        })
+
 
 class FavoritesView(View):
     def get(self, request):
