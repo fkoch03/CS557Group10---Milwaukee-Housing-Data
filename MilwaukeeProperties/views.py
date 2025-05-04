@@ -89,9 +89,28 @@ class PropertyView(View):
 
 class SearchView(View):
     def get(self, request):
-        sales = Sale.objects.all()[:48]
+        styles = Property.objects.values_list('style', flat=True).distinct().order_by('style')
+        sales = Sale.objects.select_related('property').all()[:48]
         return render(request, 'search.html', {
             'sales': sales,
+            'styles': styles,
+        })
+
+    def post(self, request):
+        search_bar = request.POST.get("search_bar")
+        property_type = request.POST.get("property_type")
+
+        sales = Sale.objects.select_related('property').all()
+
+        if search_bar:
+            sales = sales.filter(property__prop_id__address__icontains=search_bar)
+        if property_type:
+            sales = sales.filter(property__style=property_type)
+
+        styles = Property.objects.values_list('style', flat=True).distinct().order_by('style')
+        return render(request, 'search.html', {
+            'sales': sales[:48],
+            'styles': styles,
         })
 
 class FavoritesView(View):

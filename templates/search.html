@@ -24,18 +24,27 @@
             {% endif %}
         </div>
     </div>
+    <form method="post" action="{% url 'search' %}">
+    {% csrf_token %}
     <div class="search_container">
-        <div>
-            <div class="search_bar" contenteditable="true" role="textbox" aria-label= "Search" ></div>
-        </div>
+        <input type="text" name="search_bar" placeholder="Search address..." style="width: 300px;" />
     </div>
+
     <div class="filter_bar">
         <div class="links">
-            <p>Property Style</p>
-            <p>Neighborhood</p>
-            <p>Price</p>
+            <label for="property_type">Property Style:</label>
+            <select name="property_type">
+                <option value="">All Styles</option>
+                {% for style in styles %}
+                    <option value="{{ style }}">{{ style }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" name="action" value="filter">Apply Filters</button>
         </div>
     </div>
+</form>
+
     <div class = "main">
         <div class = "properties_container">
             {% for sale in sales %}
