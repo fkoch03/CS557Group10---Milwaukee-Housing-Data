@@ -104,7 +104,7 @@ class Sale(models.Model):
         blank=True,
         on_delete=models.SET_NULL
     )
-    price = models.CharField(max_length=45, null=True, blank=True)
+    price = models.IntegerField(null=True, blank=True)
     date = models.DateField(null=True, blank=True)
 
 
