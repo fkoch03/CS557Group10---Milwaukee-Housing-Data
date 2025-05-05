@@ -32,6 +32,9 @@
                 {% endfor %}
             {% endif %}
             <p>{{ prop.prop_id.address }}</p>
+            {% if condo == True %}
+                <a href="{% url 'condo' prop.condo.id %}">View this condo project</a>
+            {% endif %}
         </div>
         <form method="post">
             {% csrf_token %}

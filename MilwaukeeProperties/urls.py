@@ -30,8 +30,7 @@ path('realtor/<int:realtor_id>/', views.RealtorView.as_view(), name='realtor'),
 path("signup/", SignUpView.as_view(), name="signup"),
 
 path("login/", CustomLoginView.as_view(), name="login"),
-
-
+path('condo/<int:condo_id>/', views.CondoView.as_view(), name='condo'),
 
 
 ]
