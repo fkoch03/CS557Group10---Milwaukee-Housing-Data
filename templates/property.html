@@ -26,12 +26,17 @@
 
     <div class="main_info">
         <div>
+            {% if sales %}
+                {% for sale in sales %}
+                    <h1>${{ sale.price }}</h1>
+                {% endfor %}
+            {% endif %}
             <p>{{ prop.prop_id.address }}</p>
         </div>
         <form method="post">
             {% csrf_token %}
-            <input type="hidden" name="add_to_favorites" value="true">
-            <button type="submit" class="btn btn-primary">Add to Favorites</button>
+            <button type="submit" name = "add_to_favourites" class="btn btn-primary">Add to Favorites</button>
+
         </form>
     </div>
 
@@ -55,17 +60,23 @@
 
         <div class="property_affiliates">
             {% if sales %}
-                <p>Most recent sale data:</p>
+
+
             {% for sale in sales %}
+            <div class="affiliate_container" onclick="window.location.href='/realtor/{{ sale.realtor.id }}'">
+                <div class="affiliate_title">
+                    <p> Most Recent Sale Data:</p>
+                </div>
+                <div class="affiliate_name">
+                    <p> ${{ sale.price }}</p>
+                </div>
+            </div>
             <div class="affiliate_container" onclick="window.location.href='/realtor/{{ sale.realtor.id }}'">
                 <div class="affiliate_title">
                     <p>{{ sale.realtor.company.name }}</p>
                 </div>
                 <div class="affiliate_name">
                     <p>{{ sale.realtor.first_name }} {{ sale.realtor.last_name }}</p>
-                </div>
-                <div class="affiliate_name">
-                    <p>${{ sale.price }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -88,7 +99,7 @@
         {% for comment in comments %}
         <div class="comment_container">
             <h3>{{ comment.user.username }}</h3>
-            <p>{{ comment.content }}</p>
+            <p>{{ comment.comment }}</p>
         </div>
         {% endfor %}
     </div>
