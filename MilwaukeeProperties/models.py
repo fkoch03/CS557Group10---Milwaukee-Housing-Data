@@ -118,7 +118,7 @@ class Favorite(models.Model):
 
 
 class Comment(models.Model):
-    id = models.IntegerField(primary_key=True)
+
     comment = models.CharField(max_length=280, null=True, blank=True)
     user = models.ForeignKey(
         auth.models.User,

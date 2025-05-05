@@ -43,7 +43,7 @@
         {% else %}
                 {% for fav in favorites %}
                 <div class="property" onclick="window.location.href='/property/{{ fav.property.id }}'">
-                        <p>{{ fav.property.prop_id.address }}</p>
+                        <h4>{{ fav.property.prop_id.address }}</h4>
                         <p>{{ fav.property.style }}</p>
                         <p>{{ fav.date_added }}</p>
                 </div>
