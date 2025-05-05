@@ -1,29 +1,51 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Realtor</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+
 </head>
 <body>
     <div class="header">
-            <div class = "links">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'search' %}">Search Properties</a>
-                <a href="{% url 'favorites' %}">Favorites</a>
-                {% if user.is_authenticated %}
-                <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Log Out</button>
-                </form>
+        <div class = "links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'search' %}">Search Properties</a>
+            <a href="{% url 'favorites' %}">Favorites</a>
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+            </form>
+            {% else %}
+                <a href="{% url 'login' %}">Log In</a>
+                <a href="{% url 'signup' %}">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+    <h1>Realtor Info</h1>
+    <p>Name: {{ realtor.first_name }} {{ realtor.last_name }}</p>
+    <p>Company: {{ realtor.company.name }}</p>
+    <h3>{{ realtor.first_name }}'s Sales:</h3>
+
+    <div class = "main">
+        <div class = "properties_container">
+            {% for sale in sales %}
+            <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
+                <h3>${{ sale.price }}</h3>
+                {% if sale.property %}
+                    <p>{{ sale.property.prop_id.address }}</p>
+                    <p>{{ sale.property.style }}</p>
+                    <p>{{ sale.date }}</p>
                 {% else %}
-                    <a href="{% url 'login' %}">Log In</a>
-                    <a href="{% url 'signup' %}">Sign Up</a>
+                    <p>No address available</p>
+                    <p>No style available</p>
                 {% endif %}
             </div>
+            {% endfor %}
+        </div>
     </div>
-    <div class="main_info">
-        <p>Realtor Name</p>
-
-    </div>
+</div>
 </body>
 </html>

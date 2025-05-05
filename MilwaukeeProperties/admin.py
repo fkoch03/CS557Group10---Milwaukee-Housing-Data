@@ -15,6 +15,5 @@ admin.site.register(Realtor)
 admin.site.register(RealtorCompany)
 admin.site.register(District)
 admin.site.register(Location)
-admin.site.register(User)
 
 

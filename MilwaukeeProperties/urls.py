@@ -25,8 +25,8 @@ path('property/<int:property_id>/', views.PropertyView.as_view(), name='property
 path('favorites/', views.FavoritesView.as_view(), name='favorites'),
 path('explore/', views.SearchView.as_view(), name='search'),
 path('', include('django.contrib.auth.urls') ),
-path('district/<int:district_id>/', views.HomeView.as_view(), name='district'),
-path('realtor/<int:realtor_id>/', views.HomeView.as_view(), name='realtor'),
+path('district/<int:district_id>/', views.DistrictView.as_view(), name='district'),
+path('realtor/<int:realtor_id>/', views.RealtorView.as_view(), name='realtor'),
 path("signup/", SignUpView.as_view(), name="signup"),
 
 path("login/", CustomLoginView.as_view(), name="login"),
