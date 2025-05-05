@@ -35,8 +35,11 @@
         </div>
         <form method="post">
             {% csrf_token %}
-            <button type="submit" name = "add_to_favourites" class="btn btn-primary">Add to Favorites</button>
-
+            {% if is_favorite %}
+                <button type="submit" name = "add_to_favourites" class="btn btn-primary">Remove from Favorites</button>
+            {% else %}
+                <button type="submit" name = "add_to_favourites" class="btn btn-primary">Add to Favorites</button>
+            {% endif %}
         </form>
     </div>
 

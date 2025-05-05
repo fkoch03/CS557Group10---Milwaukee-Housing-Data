@@ -48,6 +48,12 @@ class PropertyView(View):
             return render(request, 'noresult.html')
         sales = Sale.objects.filter(property_id=property_id)
         comments = Comment.objects.filter(property_id=property_id)
+
+        is_favorite = False
+        if request.user.is_authenticated:
+            property = Property.objects.get(id=property_id)
+            is_favorite = Favorite.objects.filter(user=request.user, property=property).exists()
+
         details = {
             "Style": prop.style,
             "Exterior Wall": prop.extwall,
@@ -65,13 +71,18 @@ class PropertyView(View):
             'prop': prop,
             'comments': comments,
             'details': details,
+            'is_favorite' : is_favorite,
         })
     def post(self, request, property_id):
         if request.user.is_authenticated:
             property = Property.objects.get(id=property_id)
 
             if 'add_to_favourites' in request.POST:
-                Favorite.objects.create(user=request.user, property=property, date_added=datetime.datetime.now())
+                favorite = Favorite.objects.filter(user=request.user, property=property).first()
+                if favorite:
+                    favorite.delete()
+                else:
+                    Favorite.objects.create(user=request.user, property=property, date_added=datetime.datetime.now())
             elif 'add_comment' in request.POST:
                 comment_content = request.POST.get('comment')
                 if comment_content:
