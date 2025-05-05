@@ -1,8 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>District</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'home_styles.css' %}">
+
 </head>
 <body>
     <div class="header">
@@ -21,9 +24,27 @@
             {% endif %}
         </div>
     </div>
-    <div class="main_info">
-        <p>District</p>
+    <h1>{{ district.name }} info</h1>
+    <p>Alderman: {{ district.alderman.first_name }} {{ district.alderman.last_name }}</p>
+    <h3>Recent property sales in {{ district.name }}:</h3>
 
+    <div class = "main">
+        <div class = "properties_container">
+            {% for sale in sales %}
+            <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
+                <h3>${{ sale.price }}</h3>
+                {% if sale.property %}
+                    <p>{{ sale.property.prop_id.address }}</p>
+                    <p>{{ sale.property.style }}</p>
+                    <p>{{ sale.date }}</p>
+                {% else %}
+                    <p>No address available</p>
+                    <p>No style available</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
     </div>
+</div>
 </body>
 </html>

@@ -167,8 +167,13 @@ class RealtorView(View):
 
 
 class DistrictView(View):
-    def get(self, request):
-        return
+    def get(self, request, district_id):
+        district = District.objects.get(id=district_id)
+        sales = Sale.objects.filter(property__district_id=district_id)[:24]
+        return render(request, 'district.html', {
+            'district': district,
+            'sales': sales,
+        })
 
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -179,11 +184,9 @@ class CondoView(View):
     def get(self, request, condo_id):
         if CondoProject.objects.filter(id=condo_id) :
             condo = CondoProject.objects.get(id=condo_id)
-            props = Property.objects.filter(condo_id=condo_id)
             sales = Sale.objects.filter(property__condo_id=condo_id)
             return render(request, 'condo.html', {
                 "condo" : condo,
-                "props" : props,
                 "sales" : sales,
             })
         return render(request, 'noresult.html')
