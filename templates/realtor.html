@@ -24,26 +24,14 @@
             {% endif %}
         </div>
     </div>
-    <h1>Realtor Info</h1>
-    <p>Name: {{ realtor.first_name }} {{ realtor.last_name }}</p>
-    <p>Company: {{ realtor.company.name }}</p>
-    <h3>{{ realtor.first_name }}'s Sales:</h3>
 
-    <div class = "main">
-        <div class = "properties_container">
-            {% for sale in sales %}
-            <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
-                <h3>${{ sale.price }}</h3>
-                {% if sale.property %}
-                    <p>{{ sale.property.prop_id.address }}</p>
-                    <p>{{ sale.property.style }}</p>
-                    <p>{{ sale.date }}</p>
-                {% else %}
-                    <p>No address available</p>
-                    <p>No style available</p>
-                {% endif %}
-            </div>
-            {% endfor %}
+
+    <div class = "main" style = "height: 95vh; display: flex; justify-content: center; ">
+        <div style = "background-color: white; width: 50%; height:50%; border-radius: 10px; text-align: center; padding: 10px;">
+            <h1>Realtor Info</h1>
+            <p>Name: {{ realtor.first_name }} {{ realtor.last_name }}</p>
+            <p>Company: {{ realtor.company.name }}</p>
+            <h3>{{ realtor.first_name }}'s Sales:</h3>
         </div>
     </div>
 </div>
