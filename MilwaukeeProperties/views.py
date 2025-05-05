@@ -70,7 +70,7 @@ class PropertyView(View):
         if request.user.is_authenticated:
 
             if 'add_to_favourites' in request.POST:
-                Favorite.objects.create(user=request.user, property_id=property_id, date=datetime.datetime.now())
+                Favorite.objects.create(user=request.user.id, property=property, date=datetime.datetime.now())
             elif 'add_comment' in request.POST:
                 comment_content = request.POST.get('comment')
                 if comment_content:
@@ -149,8 +149,13 @@ class FavoritesView(View):
 
 
 class RealtorView(View):
-    def get(self, request):
-        return
+    def get(self, request, realtor_id):
+        realtor = Realtor.objects.get(id=realtor_id)
+        sales = Sale.objects.filter(realtor_id=realtor_id)
+        return render(request, 'realtor.html', {
+            'realtor': realtor,
+            'sales': sales,
+        })
 
 
 class DistrictView(View):

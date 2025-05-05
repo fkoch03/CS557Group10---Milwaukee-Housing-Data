@@ -1,12 +1,5 @@
 from django.db import models
-
-class User(models.Model):
-    id = models.IntegerField(primary_key=True)
-    username = models.CharField(max_length=45, unique=True)
-    email = models.CharField(max_length=45, null=True, blank=True)
-    first_name = models.CharField(max_length=45, null=True, blank=True)
-    last_name = models.CharField(max_length=45, null=True, blank=True)
-
+from django.contrib import auth
 
 
 class Location(models.Model):
@@ -109,9 +102,8 @@ class Sale(models.Model):
 
 
 class Favorite(models.Model):
-    id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(
-        User,
+        auth.models.User,
         null=True,
         blank=True,
         on_delete=models.CASCADE
@@ -129,7 +121,7 @@ class Comment(models.Model):
     id = models.IntegerField(primary_key=True)
     comment = models.CharField(max_length=280, null=True, blank=True)
     user = models.ForeignKey(
-        User,
+        auth.models.User,
         null=True,
         blank=True,
         on_delete=models.DO_NOTHING

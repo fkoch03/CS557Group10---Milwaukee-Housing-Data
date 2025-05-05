@@ -11,7 +11,7 @@
         <div class = "links">
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'search' %}">Search Properties</a>
-            <a href="{% url 'favorites' %}">Favorites</a>
+            <p>Favorites</p>
             {% if user.is_authenticated %}
             <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
@@ -32,7 +32,6 @@
                 <p>{{ message }}</p>
                 {% endif %}
                 <h1>Your Favorite Properties</h1>
-                <div class="search_bar" contenteditable="true" role="textbox" aria-label= "Search" placeholder ="Search..."></div>
         </div>
     </div>
     <div class="filter_bar">
@@ -43,16 +42,10 @@
             <p>No properties add to favorites yet</p>
         {% else %}
                 {% for fav in favorites %}
-                <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
-                    <h3>${{ sale.price }}</h3>
-                    {% if sale.property %}
-                        <p>{{ sale.property.prop_id.address }}</p>
-                        <p>{{ sale.property.style }}</p>
-                        <p>{{ sale.date }}</p>
-                    {% else %}
-                        <p>No address available</p>
-                        <p>No style available</p>
-                    {% endif %}
+                <div class="property" onclick="window.location.href='/property/{{ fav.property.id }}'">
+                        <p>{{ fav.property.prop_id.address }}</p>
+                        <p>{{ fav.property.style }}</p>
+                        <p>{{ fav.date_added }}</p>
                 </div>
                 {% endfor %}
         {% endif %}
