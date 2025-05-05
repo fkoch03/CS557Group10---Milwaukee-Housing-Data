@@ -24,23 +24,17 @@
             {% endif %}
         </div>
     </div>
-    <h1>{{ district.name }} info</h1>
-    <p>Alderman: {{ district.alderman.first_name }} {{ district.alderman.last_name }}</p>
-    <h3>Recent property sales in {{ district.name }}:</h3>
+    <h1>Condo Project Info</h1>
+    <h3>{{ condo.name}}</h3>
 
     <div class = "main">
         <div class = "properties_container">
             {% for sale in sales %}
-            <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
-                <h3>${{ sale.price }}</h3>
-                {% if sale.property %}
-                    <p>{{ sale.property.prop_id.address }}</p>
+            <div class="property" onclick= "window.location.href='/property/{{ sale.property.id }}'">
+                    <h3>${{ sale.price}}</h3>
                     <p>{{ sale.property.style }}</p>
-                    <p>{{ sale.date }}</p>
-                {% else %}
-                    <p>No address available</p>
-                    <p>No style available</p>
-                {% endif %}
+                    <p>{{ sale.date}}</p>
+                    <p>{{ sale.property.rooms }} room, {{ sale.property.full_bath }} bath</p>
             </div>
             {% endfor %}
         </div>
