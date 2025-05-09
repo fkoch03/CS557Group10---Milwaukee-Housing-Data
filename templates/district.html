@@ -24,11 +24,13 @@
             {% endif %}
         </div>
     </div>
-    <h1>{{ district.name }} info</h1>
-    <p>Alderman: {{ district.alderman.first_name }} {{ district.alderman.last_name }}</p>
-    <h3>Recent property sales in {{ district.name }}:</h3>
+<div class = "main" >
+        <div style = "align-content : center; background-color: white; width: 50%; height:50%; border-radius: 10px; text-align: center; padding: 10px;">
+            <h1>{{ district.name }} info</h1>
+            <p>Alderman: {{ district.alderman.first_name }} {{ district.alderman.last_name }}</p>
+            <h3>Recent property sales in {{ district.name }}:</h3>
+        </div>
 
-    <div class = "main">
         <div class = "properties_container">
             {% for sale in sales %}
             <div class="property" onclick="window.location.href='/property/{{ sale.property.id }}'">
@@ -45,6 +47,5 @@
             {% endfor %}
         </div>
     </div>
-</div>
 </body>
 </html>
