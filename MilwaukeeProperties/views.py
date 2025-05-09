@@ -49,6 +49,12 @@ class PropertyView(View):
             return render(request, 'noresult.html')
         sales = Sale.objects.filter(property_id=property_id)
         comments = Comment.objects.filter(property_id=property_id)
+
+        is_favorite = False
+        if request.user.is_authenticated:
+            property = Property.objects.get(id=property_id)
+            is_favorite = Favorite.objects.filter(user=request.user, property=property).exists()
+
         details = {
             "Style": prop.style,
             "Exterior Wall": prop.extwall,
@@ -73,6 +79,7 @@ class PropertyView(View):
             'prop': prop,
             'comments': comments,
             'details': details,
+            'is_favorite' : is_favorite,
             'condo': condo,
         })
     def post(self, request, property_id):
