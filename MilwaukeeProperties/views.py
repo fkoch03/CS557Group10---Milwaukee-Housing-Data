@@ -65,13 +65,21 @@ class PropertyView(View):
             "Full Baths": prop.full_bath,
             "Half Baths": prop.half_bath,
             "Lot Size": prop.lot_size,
+            "District": prop.district.name,
+            "Taxkey" : prop.taxkey,
         }
+        condo = False
+        if prop.condo.id != 1:
+            condo = True
+
         return render(request, 'property.html', {
             'sales': sales,
             'prop': prop,
             'comments': comments,
             'details': details,
             'is_favorite' : is_favorite,
+            'condo': condo,
+
         })
     def post(self, request, property_id):
         if request.user.is_authenticated:
@@ -171,10 +179,26 @@ class RealtorView(View):
 
 
 class DistrictView(View):
-    def get(self, request):
-        return
+    def get(self, request, district_id):
+        district = District.objects.get(id=district_id)
+        sales = Sale.objects.filter(property__district_id=district_id)[:24]
+        return render(request, 'district.html', {
+            'district': district,
+            'sales': sales,
+        })
 
 class SignUpView(CreateView):
     form_class = SignUpForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
+
+class CondoView(View):
+    def get(self, request, condo_id):
+        if CondoProject.objects.filter(id=condo_id) :
+            condo = CondoProject.objects.get(id=condo_id)
+            sales = Sale.objects.filter(property__condo_id=condo_id)
+            return render(request, 'condo.html', {
+                "condo" : condo,
+                "sales" : sales,
+            })
+        return render(request, 'noresult.html')
