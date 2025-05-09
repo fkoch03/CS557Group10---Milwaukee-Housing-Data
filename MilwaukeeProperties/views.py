@@ -1,4 +1,5 @@
 import datetime
+from symbol import continue_stmt
 
 from django.shortcuts import render, redirect
 from .models import *
@@ -67,6 +68,7 @@ class PropertyView(View):
             condo = True
 
         return render(request, 'property.html', {
+            'user' : request.user,
             'sales': sales,
             'prop': prop,
             'comments': comments,
@@ -78,6 +80,8 @@ class PropertyView(View):
             property = Property.objects.get(id=property_id)
 
             if 'add_to_favourites' in request.POST:
+                if Favorite.objects.filter(property_id=property_id).exists():
+                    return redirect('property', property_id=property_id)
                 Favorite.objects.create(user=request.user, property=property, date_added=datetime.datetime.now())
             elif 'add_comment' in request.POST:
                 comment_content = request.POST.get('comment')
@@ -88,6 +92,16 @@ class PropertyView(View):
                         comment=comment_content,
                         date=datetime.datetime.now()
                     )
+            elif 'delete_comment' in request.POST:
+                comment_id = request.POST.get('comment_id')
+                if comment_id:
+                    Comment.objects.filter(id=comment_id).delete()
+            elif 'save_comment' in request.POST:
+                comment_id = request.POST.get('comment_id')
+                if comment_id:
+                    comment = Comment.objects.get(id=comment_id)
+                    comment.comment = request.POST.get('updated_comment')
+                    comment.save()
             return redirect('property', property_id=property_id)
         return redirect('login')
             # Favorite.objects.create(user=request.user.id, property=property_id, date=datetime.datetime.now())
@@ -153,6 +167,13 @@ class FavoritesView(View):
                 'sales': sales,
                 'message': 'Log in or create an account to see your favorites!',
             })
+    def post(self, request):
+        if request.user.is_authenticated:
+            if 'delete_favorite' in request.POST:
+                fav_id = request.POST.get('fav_id')
+                if fav_id:
+                    Favorite.objects.filter(id=fav_id).delete()
+            return redirect('favorites')
 
 
 

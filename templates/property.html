@@ -104,11 +104,52 @@
             <button type="submit" name="add_comment">Submit</button>
         </form>
         {% for comment in comments %}
-        <div class="comment_container">
-            <h3>{{ comment.user.username }}</h3>
-            <p>{{ comment.comment }}</p>
+<div class="comment_container" id="comment-{{ comment.id }}">
+    <h3>{{ comment.user.username }}</h3>
+    <p class="comment-text">{{ comment.comment }}</p>
+
+    {% if comment.user.id == user.id %}
+        <form method="post" id="editdelete-form-{{ comment.id }}" style="display: block;">
+            {% csrf_token %}
+            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+            <button type="button" onclick="showEditForm({{ comment.id }})">Edit</button>
+            <button type="submit" name="delete_comment">Delete</button>
+        </form>
+
+        <form method="post" class="edit-form" id="edit-form-{{ comment.id }}" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="comment_id" value="{{ comment.id }}">
+            <textarea name="updated_comment">{{ comment.comment }}</textarea>
+            <button type="submit" name="save_comment">Save</button>
+            <button type="button" onclick="cancelEdit({{ comment.id }})">Cancel</button>
+        </form>
+        {% endif %}
         </div>
         {% endfor %}
     </div>
+    <script>
+function showEditForm(commentId) {
+    const container = document.getElementById(`comment-${commentId}`);
+    const commentText = container.querySelector('.comment-text');
+    const editForm = document.getElementById(`edit-form-${commentId}`);
+    const editdelete = document.getElementById(`editdelete-form-${commentId}`);
+
+    commentText.style.display = 'none';
+    editForm.style.display = 'block';
+    editdelete.style.display = 'none';
+}
+
+function cancelEdit(commentId) {
+    const container = document.getElementById(`comment-${commentId}`);
+    const commentText = container.querySelector('.comment-text');
+    const editForm = document.getElementById(`edit-form-${commentId}`);
+    const editdelete = document.getElementById(`editdelete-form-${commentId}`);
+
+    editForm.style.display = 'none';
+    commentText.style.display = 'block';
+    editdelete.style.display = 'block';
+}
+</script>
+
 </body>
 </html>

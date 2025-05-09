@@ -46,6 +46,11 @@
                         <h4>{{ fav.property.prop_id.address }}</h4>
                         <p>{{ fav.property.style }}</p>
                         <p>{{ fav.date_added }}</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="fav_id" value = "{{fav.id}}">
+                            <button type="submit" name="delete_favorite">Delete</button>
+                        </form>
                 </div>
                 {% endfor %}
         {% endif %}
