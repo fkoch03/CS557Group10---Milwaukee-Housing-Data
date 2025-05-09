@@ -68,6 +68,8 @@ class PropertyView(View):
             "Lot Size": prop.lot_size,
             "District": prop.district.name,
             "Taxkey" : prop.taxkey,
+            "Latitude" : prop.prop_id.latitude,
+            "Longitude" : prop.prop_id.longitude,
         }
         condo = False
         if prop.condo.id != 1:
@@ -86,10 +88,13 @@ class PropertyView(View):
         if request.user.is_authenticated:
             property = Property.objects.get(id=property_id)
 
-            if 'add_to_favourites' in request.POST:
+            if 'add_to_favorites' in request.POST:
                 if Favorite.objects.filter(property_id=property_id).exists():
                     return redirect('property', property_id=property_id)
                 Favorite.objects.create(user=request.user, property=property, date_added=datetime.datetime.now())
+            elif 'remove_from_favorites' in request.POST:
+                if Favorite.objects.filter(property_id=property_id).exists():
+                    Favorite.objects.filter(property_id=property_id).delete()
             elif 'add_comment' in request.POST:
                 comment_content = request.POST.get('comment')
                 if comment_content:

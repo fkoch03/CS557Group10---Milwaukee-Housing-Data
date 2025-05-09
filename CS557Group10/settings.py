@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'MilwaukeeProperties',
         'USER': 'root',
-        'PASSWORD': '#Whatthe@$$007',
+        'PASSWORD': 'Whatthe@$$007',
         'HOST': 'localhost',
         'PORT': '3306',  # Default MySQL port
     }

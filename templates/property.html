@@ -39,9 +39,9 @@
         <form method="post">
             {% csrf_token %}
             {% if is_favorite %}
-                <button type="submit" name = "add_to_favourites" class="btn btn-primary">Remove from Favorites</button>
+                <button type="submit" name = "remove_from_favorites" class="btn btn-primary">Remove from Favorites</button>
             {% else %}
-                <button type="submit" name = "add_to_favourites" class="btn btn-primary">Add to Favorites</button>
+                <button type="submit" name = "add_to_favorites" class="btn btn-primary">Add to Favorites</button>
             {% endif %}
         </form>
     </div>
